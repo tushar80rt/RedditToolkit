@@ -38,8 +38,11 @@ This project transforms that chaos into **actionable insights** using **AI-power
 
 ---
 
-## 🖼️ Visual Workflow
+### 🖼️ Visual Workflow Demo
 
+Watch the AI agents in action:  
+
+![Reddit Insight Demo](RedditToolkit/assets/redditinsight%20demo%201.gif)
 
 
 ---
