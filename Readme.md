@@ -5,11 +5,20 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Powered%20By-Camel%20AI-00D4B1?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Framework-Streamlit-FF4B4B?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/API-Reddit-orange?style=for-the-badge&logo=reddit" />
-  <img src="https://img.shields.io/badge/LLM-GPT--4o-blue?style=for-the-badge&logo=openai" />
+  <a href="https://www.camel-ai.org" target="_blank">
+    <img src="https://img.shields.io/badge/Powered%20By-Camel%20AI-00D4B1?style=for-the-badge" alt="Camel AI"/>
+  </a>
+  <a href="https://streamlit.io" target="_blank">
+    <img src="https://img.shields.io/badge/Framework-Streamlit-FF4B4B?style=for-the-badge" alt="Streamlit"/>
+  </a>
+  <a href="https://www.reddit.com/dev/api/" target="_blank">
+    <img src="https://img.shields.io/badge/API-Reddit-orange?style=for-the-badge&logo=reddit" alt="Reddit API"/>
+  </a>
+  <a href="https://openai.com" target="_blank">
+    <img src="https://img.shields.io/badge/LLM-GPT--4o-blue?style=for-the-badge&logo=openai" alt="GPT-4o"/>
+  </a>
 </p>
+
 
 ---
 
