@@ -1,10 +1,13 @@
 <h1 align="center">🦾 Reddit Insight Agents</h1>
 <p align="center">
   <b>AI-powered Reddit Analysis & Engagement Tool</b><br>
- Summarize posts, fact-check comments, analyze sentiment, and generate authentic Reddit-style content using 
-<a href="https://www.camel-ai.org" target="_blank">Camel AI</a> Agents + 
-<a href="https://streamlit.io" target="_blank">Streamlit</a>.
+  Summarize posts, fact-check comments, analyze sentiment, 
+  <b>generate user-style comments</b>, and 
+  <b>auto-post directly to Reddit</b> using 
+  <a href="https://www.camel-ai.org" target="_blank">Camel AI</a> + 
+  <a href="https://streamlit.io" target="_blank">Streamlit</a>.
 </p>
+
 
 <p align="center">
   <a href="https://www.camel-ai.org" target="_blank">
