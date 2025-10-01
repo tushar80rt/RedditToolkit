@@ -42,7 +42,10 @@ This project transforms that chaos into **actionable insights** using **AI-power
 
 Watch the AI agents in action:  
 
-![Reddit Insight Demo](RedditToolkit/assets/redditinsight%20demo%201.gif)
+
+<p align="center">
+  <img src="./assets/redditinsight_demo1.gif" alt="demo" width="600"/>
+</p>
 
 
 ---
