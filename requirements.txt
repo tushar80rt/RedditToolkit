@@ -1,0 +1,7 @@
+camel-ai
+streamlit
+pandas
+matplotlib
+python-dotenv
+TextBlob
+praw
