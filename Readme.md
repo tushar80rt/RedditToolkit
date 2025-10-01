@@ -87,8 +87,8 @@ RedditToolkit
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/reddit-insight-agents.git
-cd reddit-insight-agents
+git clone https://github.com/tushar80rt/RedditToolkit.git
+cd RedditToolkit
 ```
 2️⃣ Install Dependencies
 ```
