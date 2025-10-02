@@ -1,3 +1,4 @@
+
 import os
 import time
 import traceback
@@ -102,6 +103,41 @@ Return only the comment text.
     tools=[]
 )
 
+
+# ---------------- Helper Agent ---------------- #
+helper_agent = ChatAgent(
+    """
+You are **Helper**, the personal guide for this Reddit Insight Agent.
+
+Your responsibilities:
+1. Clear user doubts step by step (like teaching a beginner).
+2. If the doubt is about posting → Explain how `create_post()` works, common issues (credentials, subreddit rules, flair), and fixes.
+3. If the doubt is about fetching → Explain how `fetch_posts()` collects posts & comments, common issues, and fixes.
+4. If the doubt is about agents (collector, sentiment, factchecker, comment) → Explain their role in simple terms.
+5. Always give solutions, possible mistakes, and how to fix them.
+6. Show small code examples wherever it helps.
+7. Be polite, beginner-friendly, and provide actionable guidance.
+8. Limit answers to the context of this Reddit Insight Agent only.
+""",
+    model=model,
+    tools=[]
+)
+
+def ask_helper(question: str):
+    """
+    User can ask any project-related question.
+    Helper Agent will explain and resolve doubts clearly.
+    """
+    try:
+        resp = helper_agent.step(question)
+        return resp.msgs[0].content.strip()
+    except Exception as e:
+        print("❌ Error in Helper Agent:", e)
+        return "Sorry, Helper Agent could not answer."
+
+
+
+
 def generate_comment_from_best(fetched_comments):
     """
     fetched_comments: list of dicts with 'Comment Body' and 'Upvotes'
@@ -135,17 +171,17 @@ def fetch_posts(subreddits, keywords=None, post_limit=None, comment_limit=None):
                 post.comments.replace_more(limit=0)
                 all_comments = post.comments.list()
 
-                
+                # Filter by keywords if provided
                 filtered_comments = [
                     {"Comment Body": c.body, "Upvotes": getattr(c, "score", 0)}
                     for c in all_comments
                     if not keywords or any(kw.lower() in c.body.lower() for kw in keywords)
                 ]
 
-              
+                # Sort comments by upvotes descending
                 sorted_comments = sorted(filtered_comments, key=lambda x: x["Upvotes"], reverse=True)
 
-                
+                # Take top `comment_limit` comments
                 post_comments = sorted_comments[:comment_limit]
 
                 print(f"DEBUG: Post: {post.title}, Top Comments Fetched: {len(post_comments)}")
