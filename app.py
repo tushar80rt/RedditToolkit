@@ -1,9 +1,12 @@
+
+
 import streamlit as st
 import pandas as pd
-from agents import fetch_posts, generate_report, create_post, generate_comment_from_best
+from agents import fetch_posts, generate_report, create_post, generate_comment_from_best, ask_helper
 from dotenv import load_dotenv
 import os
 import traceback
+
 
 # ---------------- Load environment variables ---------------- #
 dotenv_path = os.path.join(os.path.dirname(__file__), "api.env")
@@ -57,14 +60,14 @@ col1, col2 = st.columns(2)
 
 with col1:
     subreddits_input = st.text_input(
-        label="🌐 Subreddits",
+        label="🌐Subreddits",
         placeholder="e.g. news, science, india",
         help="Enter subreddit names without the 'r/' prefix."
     )
 
 with col2:
     keywords_input = st.text_input(
-        label="📝 Keywords",
+        label="📝Keywords",
         placeholder="e.g. AI, stock market, elections",
         help="Keywords to search for in posts and comments."
     )
@@ -151,6 +154,7 @@ with st.sidebar:
         except Exception as e:
             st.error(f"Error generating comment: {e}")
 
+
     st.markdown("---")
     st.subheader("About")
     st.markdown("""
@@ -214,7 +218,7 @@ if analyze_btn:
             st.markdown('<div class="card">', unsafe_allow_html=True)
             cols = st.columns([1, 3])  
 
-            # Thumbnail on left
+
             with cols[0]:
                 if post.get("Post Thumbnail"):
                     st.image(post["Post Thumbnail"], use_container_width=True)
@@ -303,3 +307,129 @@ if analyze_btn:
         st.error(f"Error: {str(e)}")
         print("Exception in generate_report():", e)
         traceback.print_exc()
+
+
+
+# ---------------- Floating Helper Agent ---------------- #
+
+if "helper_expanded" not in st.session_state:
+    st.session_state.helper_expanded = False
+if "helper_question" not in st.session_state:
+    st.session_state.helper_question = ""
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []  
+
+
+def toggle_helper():
+    st.session_state.helper_expanded = not st.session_state.helper_expanded
+
+def handle_helper():
+    question = st.session_state.helper_question.strip()
+    if question:
+
+        answer = ask_helper(question)
+
+        st.session_state.chat_history.append({"Q": question, "A": answer})
+        st.session_state.helper_question = ""  
+
+
+
+st.markdown("""
+<style>
+/* Floating Help Button */
+.helper-btn {
+  position: fixed;
+  bottom: 20px;   /* distance from bottom */
+  right: 20px;    /* distance from right */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00D4B1, #008080);
+  color: #000;
+  font-size: 30px;
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* Helper Chat Box */
+.helper-box {
+  position: fixed;
+  bottom: 90px;  /* placed above the button */
+  right: 20px;
+  width: 360px;
+  max-height: 450px;
+  background-color: #1E1E2F;
+  color: #FAFAFA;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 9998;
+  overflow-y: auto;
+}
+
+.helper-box textarea {
+  width: 100%;
+  border-radius: 10px;
+  padding: 8px;
+  margin-top: 5px;
+  background-color: #2A2A3D;
+  color: #FAFAFA;
+  border: none;
+  resize: none;
+}
+
+.helper-box button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#00D4B1,#008080);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.helper-question {
+  background-color: #2A2A3D;
+  border-radius: 10px;
+  padding: 8px;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.helper-answer {
+  background-color: #262730;
+  border-radius: 10px;
+  padding: 8px;
+  margin-top: 4px;
+  font-size: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+</style>
+
+""", unsafe_allow_html=True)
+
+
+
+st.button("💡Need Help?", key="helper_toggle_btn", on_click=toggle_helper, help="Open Helper Chat")
+
+
+if st.session_state.helper_expanded:
+    st.markdown('<div id="helper-box">', unsafe_allow_html=True)
+
+
+    st.text_area("Ask your question...", key="helper_question", height=50)
+    st.button("Ask", on_click=handle_helper)
+
+
+    if st.session_state.chat_history:
+        for chat in st.session_state.chat_history:
+            st.markdown(f'<div class="helper-question">Q: {chat["Q"]}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="helper-answer">A: {chat["A"]}</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
