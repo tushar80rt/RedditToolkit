@@ -58,8 +58,9 @@ Watch the AI agents in action:
 
 
 <p align="center">
-  <img src="assets/workflowreddit.gif"alt="demo" width="600"/>
+  <img src="assets/workflowreddit.gif" alt="demo" width="600"/>
 </p>
+
 
 
 ---
